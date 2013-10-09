@@ -117,10 +117,14 @@
  
     switchQuality: function(quality, url, mimetype) {
       var player = this;
-      player.pause();
+      var wasPaused = player.media.paused;
+      player.setSrc("");
       player.setSrc([{ src: url, type: mimetype }]);
       player.selectedQuality = quality;
-      player.load();  
+      player.load();
+      if (!wasPaused) {
+        player.play();
+      }
     }
   });
 
