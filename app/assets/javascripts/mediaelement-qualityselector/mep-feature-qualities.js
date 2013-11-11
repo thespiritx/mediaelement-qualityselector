@@ -11,80 +11,60 @@
 	$.extend(MediaElementPlayer.prototype, {
 	
 		buildqualities: function(player, controls, layers, media) {
-			var t = this, 
-				i, 
-				options = '';
 
-      // If list exists, nuke it
-      if ($(".mejs-qualities-selector").length > 0) {
-        $(".mejs-qualities-selector ul li").remove();
-      } else {
-  			player.qualitiesButton = 
+			// If list exists, nuke it
+			if ($(".mejs-qualities-selector").length > 0) {
+				$(".mejs-qualities-selector ul li").remove();
+			} else {
+				player.qualitiesButton = 
 					$('<div class="mejs-button mejs-qualities-button">'+
-					  	'<button type="button" aria-controls="' + t.id + '" title="' + t.options.qualitiesText + '" aria-label="' + t.options.qualitiesText + '"></button>'+
+					  	'<button type="button" aria-controls="' + player.id + '" title="' + player.options.qualitiesText + '" aria-label="' + player.options.qualitiesText + '"></button>'+
 						  '<div class="mejs-qualities-selector">'+
 		  					'<ul></ul>'+
 			  			'</div>'+
 				  	'</div>').appendTo(controls);
-         player.selectedQuality = mejs.MepDefaults.startQuality;
+				player.selectedQuality = player.options.startQuality;
 			}
 
-		  player.sources = $(player.domNode).find("source");		
+			player.sources = $(player.domNode).find("source");		
 
-      player.qualities = [];
+			player.qualities = [];
 			for (var i = 0; i < player.sources.length; i++) {
 				if (player.sources[i].getAttribute("data-plugin-type") == player.media.pluginType) {
-          player.qualities.push(player.sources[i]);
+					player.qualities.push(player.sources[i]);
 				}
 			}
 
-			// if only one language then just make the button a toggle
+			// if only one quality then just make the button a toggle
 			if (player.qualities.length == 1){
 				// click
 				player.qualitiesButton.on('click',function() {
-          alert("This stream only has 1 quality");
+					alert("This stream only has 1 quality");
 				});
 			} else {
-				// hover
-				player.qualitiesButton.hover(function() {
+				player.qualitiesButton.on('touchstart mouseenter', function() {
 					$(this).find('.mejs-qualities-selector').css('visibility','visible');
-				}, function() {
+				})
+				.on('mouseleave', function() {
 					$(this).find('.mejs-qualities-selector').css('visibility','hidden');
 				})
 
 				// handle clicks to the quality radio buttons
 				.on('click','input[type=radio]',function() {
-          player.switchQuality($(this).siblings('label').text(), this.getAttribute("value"), this.getAttribute("data-mimetype"));
+					player.switchQuality($(this).siblings('label').text(), this.getAttribute("value"), this.getAttribute("data-mimetype"));
+					$(this).closest('.mejs-qualities-selector').css('visibility','hidden');
 				});
 			}
 
-			if (!player.options.alwaysShowControls) {
-				// move with controls
-				player.container
-					.bind('controlsshown', function () {
-						// push captions above controls
-						player.container.find('.mejs-qualities-position').addClass('mejs-qualities-position-hover');
-
-					})
-					.bind('controlshidden', function () {
-						if (!media.paused) {
-							// move back to normal place
-							player.container.find('.mejs-qualities-position').removeClass('mejs-qualities-position-hover');
-						}
-					});
-			} else {
-				player.container.find('.mejs-qualities-position').addClass('mejs-qualities-position-hover');
-			}
-
 			// Gets the index of pre-selected quality, default is the first quality 
-      var selectedIndex = 0;
+			var selectedIndex = 0;
 			for (var i = 0; i < player.qualities.length; i++) {
-        var q = player.qualities[i];
-        if (q.getAttribute("data-quality") === player.selectedQuality) {
-          selectedIndex = i;
-          break;
-        }
-      }
+				var q = player.qualities[i];
+				if (q.getAttribute("data-quality") === player.selectedQuality) {
+					selectedIndex = i;
+					break;
+				}
+			}
 
 			// Adds qualities to list and pre-selects the chosen one
 			for (var i = 0; i < player.qualities.length; i++) {
