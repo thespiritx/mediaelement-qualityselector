@@ -35,26 +35,18 @@
 				}
 			}
 
-			// if only one quality then just make the button a toggle
-			if (player.qualities.length == 1){
-				// click
-				player.qualitiesButton.on('click',function() {
-					alert("This stream only has 1 quality");
-				});
-			} else {
-				player.qualitiesButton.on('touchstart mouseenter', function() {
-					$(this).find('.mejs-qualities-selector').css('visibility','visible');
-				})
-				.on('mouseleave', function() {
-					$(this).find('.mejs-qualities-selector').css('visibility','hidden');
-				})
+			player.qualitiesButton.on('touchstart mouseenter', function() {
+				$(this).find('.mejs-qualities-selector').css('visibility','visible');
+			})
+			.on('mouseleave', function() {
+				$(this).find('.mejs-qualities-selector').css('visibility','hidden');
+			})
 
-				// handle clicks to the quality radio buttons
-				.on('click','input[type=radio]',function() {
-					player.switchQuality($(this).siblings('label').text(), this.getAttribute("value"), this.getAttribute("data-mimetype"));
-					$(this).closest('.mejs-qualities-selector').css('visibility','hidden');
-				});
-			}
+			// handle clicks to the quality radio buttons
+			.on('click','input[type=radio]',function() {
+				player.switchQuality($(this).siblings('label').text(), this.getAttribute("value"), this.getAttribute("data-mimetype"));
+				$(this).closest('.mejs-qualities-selector').css('visibility','hidden');
+			});
 
 			// Gets the index of pre-selected quality, default is the first quality 
 			var selectedIndex = 0;
