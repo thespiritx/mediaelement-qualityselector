@@ -49,27 +49,20 @@
 			});
 
 			// Gets the index of pre-selected quality, default is the first quality 
+			// Though it's possible there pre-selected quality doesn't exist, in which case the first quality will be used
 			var selectedIndex = 0;
 			for (var i = 0; i < player.qualities.length; i++) {
-				var q = player.qualities[i];
-				if (q.getAttribute("data-quality") === player.selectedQuality) {
-					selectedIndex = i;
-					break;
-				}
+                                var q = player.qualities[i];
+                                var isSelected = q.getAttribute("data-quality") === player.selectedQuality;
+                                if (isSelected) {
+                                        selectedIndex = i;
+                                }
+                                player.addQualityButton(q.getAttribute("data-quality"), q.getAttribute("src"), q.getAttribute("type"), isSelected);
 			}
-
-			// Adds qualities to list and pre-selects the chosen one
-			for (var i = 0; i < player.qualities.length; i++) {
-        var q = player.qualities[i];
-        var isSelected = selectedIndex == i;
-			  player.addQualityButton(q.getAttribute("data-quality"), q.getAttribute("src"), q.getAttribute("type"), isSelected);
-
-        // Makes current player use the pre-selected quality
-        if (isSelected) {
-          player.switchQuality(q.getAttribute("data-quality"), q.getAttribute("src"), q.getAttribute("type"));
-        }
-			}
-
+			
+			// Sets the player to use the selected quality
+			player.setSrc([{src: player.qualities[selectedIndex].getAttribute("src"), type: player.qualities[selectedIndex].getAttribute("type")}]);
+			player.selectedQuality = player.qualities[selectedIndex].getAttribute("data-quality");
 		},
 
 		addQualityButton: function(label, url, mimetype, isSelected) {
@@ -77,7 +70,7 @@
 			if (label === '') {
 				label = "Unknown"; 
 			}
-      var checkedAttr = isSelected ? "checked" : "";
+			var checkedAttr = isSelected ? "checked" : "";
 
 			t.qualitiesButton.find('ul').append(
 				'<li>'+
@@ -87,17 +80,10 @@
 			);
 		},
  
-    switchQuality: function(quality, url, mimetype) {
-      var player = this;
-      var wasPaused = player.media.paused;
-      player.setSrc("");
-      player.setSrc([{ src: url, type: mimetype }]);
-      player.selectedQuality = quality;
-      player.load();
-      if (!wasPaused) {
-        player.play();
-      }
-    }
-  });
+		switchQuality: function(quality, url, mimetype) {
+			this.switchStream(url);
+			this.selectedQuality = quality;
+		}
+	});
 
 })(mejs.$);
