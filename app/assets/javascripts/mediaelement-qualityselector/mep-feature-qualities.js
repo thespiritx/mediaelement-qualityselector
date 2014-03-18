@@ -61,7 +61,8 @@
 			}
 			
 			// Sets the player to use the selected quality
-			player.setSrc([{src: player.qualities[selectedIndex].getAttribute("src"), type: player.qualities[selectedIndex].getAttribute("type")}]);
+			// Use the string parameter to avoid checking canPlayType
+			player.setSrc(player.qualities[selectedIndex].getAttribute("src"));
 			player.selectedQuality = player.qualities[selectedIndex].getAttribute("data-quality");
 		},
 
