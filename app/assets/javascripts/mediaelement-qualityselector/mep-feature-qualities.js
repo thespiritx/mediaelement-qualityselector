@@ -82,8 +82,13 @@
 		},
  
 		switchQuality: function(quality, url, mimetype) {
-			this.switchStream(url);
-			this.selectedQuality = quality;
+		    $.ajax({type: "POST",
+				url: "/media_objects/set_session_quality",
+				data: { quality: quality },
+				dataType: 'json'}
+			);
+		    this.switchStream(url);
+		    this.selectedQuality = quality;
 		}
 	});
 
