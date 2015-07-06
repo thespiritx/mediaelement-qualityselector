@@ -19,7 +19,7 @@
 				player.qualitiesButton = 
 					$('<div class="mejs-button mejs-qualities-button">'+
 					  	'<button type="button" aria-controls="' + player.id + '" title="' + player.options.qualitiesText + '" aria-label="' + player.options.qualitiesText + '"></button>'+
-						  '<div class="mejs-qualities-selector">'+
+						  '<div class="mejs-qualities-selector hide-qualities-selector">'+
 		  					'<ul></ul>'+
 			  			'</div>'+
 				  	'</div>').appendTo(controls);
@@ -35,21 +35,44 @@
 				}
 			}
 
-			player.qualitiesButton.on('touchstart mouseenter', function() {
-				$(this).find('.mejs-qualities-selector').css('visibility','visible');
-			})
-			.on('mouseleave', function() {
-				$(this).find('.mejs-qualities-selector').css('visibility','hidden');
-			})
+      function hideQualitySelector() {
+        $( ".mejs-qualities-selector" ).addClass( "hide-qualities-selector" );
+      }
 
-			// handle clicks to the quality radio buttons
-			.on('click','input[type=radio]',function() {
-				player.switchQuality($(this).siblings('label').text(), this.getAttribute("value"), this.getAttribute("data-mimetype"));
-				$(this).closest('.mejs-qualities-selector').css('visibility','hidden');
+      function showQualitySelector() {
+        $( ".mejs-qualities-selector" ).removeClass( "hide-qualities-selector" );
+      }
+
+			player.qualitiesButton.on('touchstart mouseenter focusin', function() {
+        showQualitySelector();
+			})
+			.on('mouseleave focusout', function() {
+        hideQualitySelector();
+			})
+			// handle clicks to the quality buttons
+			.on('click','input[type=button]',function() {
+				player.switchQuality(this.getAttribute("value"), this.getAttribute("name"), this.getAttribute("data-mimetype"));
+        $( this ).parent().siblings().children().removeClass( "btn-primary" );
+        $( this ).addClass( "btn-primary" );
 			});
 
+      // Firefox doesn't support focusin/focusout, so capture the event
+      $( ".mejs-qualities-button" ).get( 0 ).addEventListener( "blur", function( e ) {
+        $( ".mejs-qualities-selector input" ).each( function() { $( this ).attr( "tabIndex", "-1" )});
+        if ( e.target.id === "mep_0_qualities_low" || e.target.tagName === "BUTTON" ) {
+          hideQualitySelector();
+        }
+      }, true );
+
+      $( ".mejs-qualities-button" ).get( 0 ).addEventListener( "focus", function( e ) {
+        $( ".mejs-qualities-selector input" ).each( function() { $( this ).attr( "tabIndex", "0" )});
+        if ( e.target.tagName === "BUTTON" ) {
+          showQualitySelector();
+        }
+      }, true );
+
 			// Gets the index of pre-selected quality, default is the first quality 
-			// Though it's possible there pre-selected quality doesn't exist, in which case the first quality will be used
+			// Though it's possible the pre-selected quality doesn't exist, in which case the first quality will be used
 			var selectedIndex = 0;
 			for (var i = 0; i < player.qualities.length; i++) {
                                 var q = player.qualities[i];
@@ -64,6 +87,7 @@
 			// Use the string parameter to avoid checking canPlayType
 			player.setSrc(player.qualities[selectedIndex].getAttribute("src"));
 			player.selectedQuality = player.qualities[selectedIndex].getAttribute("data-quality");
+
 		},
 
 		addQualityButton: function(label, url, mimetype, isSelected) {
@@ -71,12 +95,11 @@
 			if (label === '') {
 				label = "Unknown"; 
 			}
-			var checkedAttr = isSelected ? "checked" : "";
+			var selected = isSelected ? "btn-primary" : "";
 
 			t.qualitiesButton.find('ul').append(
 				'<li>'+
-					'<input type="radio" name="' + t.id + '_qualities" id="' + t.id + '_qualities_' + label + '" value="' + url + '"' + ' data-mimetype="' + mimetype + '"' + checkedAttr + '/>' +
-					'<label for="' + t.id + '_qualities_' + label + '">' + label + '</label>'+
+					'<input type="button" class="btn btn-default btn-xs ' + selected + '" name="' + url + '" id="' + t.id + '_qualities_' + label + '" value="' + label.charAt( 0 ).toUpperCase() + label.slice( 1 ) + '"' + ' data-mimetype="' + mimetype + '"' + ' tabindex="0" />' +
 				'</li>'
 			);
 		},
@@ -91,5 +114,4 @@
 			);
 		}
 	});
-
 })(mejs.$);

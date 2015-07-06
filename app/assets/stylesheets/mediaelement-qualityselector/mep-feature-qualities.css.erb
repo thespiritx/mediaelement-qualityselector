@@ -6,11 +6,11 @@
   background: transparent url(<%= asset_path "mediaelement-qualityselector/gear.png" %>) no-repeat;
 }
 
+
 .mejs-controls .mejs-qualities-button .mejs-qualities-selector {
-  visibility: hidden;
   position: absolute;
   bottom: 26px;
-  right: -10px;
+  right: -25px;
   width: 90px;
   height: 80px;
   background: rgba(50,50,50,0.7);
@@ -20,8 +20,10 @@
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
-}          
-
+}
+.mejs-controls .mejs-qualities-button .mejs-qualities-selector.hide-qualities-selector {
+  left: -10000px;
+}
 .mejs-controls .mejs-qualities-button .mejs-qualities-selector ul {
 	margin: 0;
 	padding: 0;
@@ -40,7 +42,9 @@
 .mejs-controls .mejs-qualities-button .mejs-qualities-selector ul li input {
 	clear: both;
 	float: left;
-	margin: 3px 3px 0 5px;
+	margin: 3px;
+  width: 90%;
+  border-radius: 4px;
 }
 .mejs-controls .mejs-qualities-button .mejs-qualities-selector ul li label {
 	width: 60px;
@@ -50,4 +54,7 @@
 	font-family: helvetica, arial;
 	font-size: 10px;
 }
-
+.mejs-controls .mejs-qualities-button .mejs-qualities-selector ul li .btn-primary {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
