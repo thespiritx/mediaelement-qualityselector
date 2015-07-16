@@ -51,7 +51,7 @@
 			})
 			// handle clicks to the quality buttons
 			.on('click','input[type=button]',function() {
-				player.switchQuality(this.getAttribute("value"), this.getAttribute("name"), this.getAttribute("data-mimetype"));
+				player.switchQuality(this.getAttribute("value").toLowerCase(), this.getAttribute("name"), this.getAttribute("data-mimetype"));
         $( this ).parent().siblings().children().removeClass( "btn-primary" );
         $( this ).addClass( "btn-primary" );
 			});
