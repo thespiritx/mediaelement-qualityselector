@@ -49,6 +49,7 @@
 			.on('mouseleave focusout', function() {
         hideQualitySelector();
 			})
+
 			// handle clicks to the quality buttons
 			.on('click','input[type=button]',function() {
 				player.switchQuality(this.getAttribute("value").toLowerCase(), this.getAttribute("name"), this.getAttribute("data-mimetype"));
@@ -57,9 +58,9 @@
 			});
 
       // Firefox doesn't support focusin/focusout, so capture the event
-      $( ".mejs-qualities-button" ).get( 0 ).addEventListener( "blur", function( e ) {
-        $( ".mejs-qualities-selector input" ).each( function() { $( this ).attr( "tabIndex", "-1" )});
-        if ( e.target.id === "mep_0_qualities_low" || e.target.tagName === "BUTTON" ) {
+      $( ".mejs-qualities-button" ).get( 0 ).addEventListener( "keydown", function( e ) {
+        if ( e.target === $( ".mejs-qualities-button input:last" ).get( 0 ) || ( e.keyCode == 9 && e.shiftKey ))
+        {
           hideQualitySelector();
         }
       }, true );
