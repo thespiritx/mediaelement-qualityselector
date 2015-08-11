@@ -55,11 +55,12 @@
 				player.switchQuality(this.getAttribute("value").toLowerCase(), this.getAttribute("name"), this.getAttribute("data-mimetype"));
         $( this ).parent().siblings().children().removeClass( "btn-primary" );
         $( this ).addClass( "btn-primary" );
+        setTimeout( hideQualitySelector, 500 );
 			});
 
       // Firefox doesn't support focusin/focusout, so capture the event
       $( ".mejs-qualities-button" ).get( 0 ).addEventListener( "keydown", function( e ) {
-        if ( e.target === $( ".mejs-qualities-button input:last" ).get( 0 ) || ( e.keyCode == 9 && e.shiftKey ))
+        if (( e.target === $( ".mejs-qualities-button input:last" ).get( 0 ) && e.keyCode == 9 ) || ( e.keyCode == 9 && e.shiftKey ))
         {
           hideQualitySelector();
         }
