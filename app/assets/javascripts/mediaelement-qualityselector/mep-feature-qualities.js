@@ -13,13 +13,13 @@
 		buildqualities: function(player, controls, layers, media) {
 
 			// If list exists, nuke it
-			if ($(".mejs__qualities-selector").length > 0) {
-				$(".mejs__qualities-selector ul li").remove();
+			if ($(".mejs-qualities-selector").length > 0) {
+				$(".mejs-qualities-selector ul li").remove();
 			} else {
 				player.qualitiesButton = 
-					$('<div class="mejs__button mejs__qualities-button">'+
+					$('<div class="mejs-button mejs-qualities-button">'+
 					  	'<button type="button" aria-controls="' + player.id + '" title="' + player.options.qualitiesText + '" aria-label="' + player.options.qualitiesText + '"></button>'+
-						  '<div class="mejs__qualities-selector hide-qualities-selector">'+
+						  '<div class="mejs-qualities-selector hide-qualities-selector">'+
 		  					'<ul></ul>'+
 			  			'</div>'+
 				  	'</div>').appendTo(controls);
@@ -36,11 +36,11 @@
 			}
 
       function hideQualitySelector() {
-        $( ".mejs__qualities-selector" ).addClass( "hide-qualities-selector" );
+        $( ".mejs-qualities-selector" ).addClass( "hide-qualities-selector" );
       }
 
       function showQualitySelector() {
-        $( ".mejs__qualities-selector" ).removeClass( "hide-qualities-selector" );
+        $( ".mejs-qualities-selector" ).removeClass( "hide-qualities-selector" );
       }
 
 			player.qualitiesButton.on('touchstart mouseenter focusin', function() {
@@ -59,15 +59,15 @@
 			});
 
       // Firefox doesn't support focusin/focusout, so capture the event
-      $( ".mejs__qualities-button" ).get( 0 ).addEventListener( "keydown", function( e ) {
-        if (( e.target === $( ".mejs__qualities-button input:last" ).get( 0 ) && e.keyCode == 9 ) || ( e.keyCode == 9 && e.shiftKey ))
+      $( ".mejs-qualities-button" ).get( 0 ).addEventListener( "keydown", function( e ) {
+        if (( e.target === $( ".mejs-qualities-button input:last" ).get( 0 ) && e.keyCode == 9 ) || ( e.keyCode == 9 && e.shiftKey ))
         {
           hideQualitySelector();
         }
       }, true );
 
-      $( ".mejs__qualities-button" ).get( 0 ).addEventListener( "focus", function( e ) {
-        $( ".mejs__qualities-selector input" ).each( function() { $( this ).attr( "tabIndex", "0" )});
+      $( ".mejs-qualities-button" ).get( 0 ).addEventListener( "focus", function( e ) {
+        $( ".mejs-qualities-selector input" ).each( function() { $( this ).attr( "tabIndex", "0" )});
         if ( e.target.tagName === "BUTTON" ) {
           showQualitySelector();
         }
