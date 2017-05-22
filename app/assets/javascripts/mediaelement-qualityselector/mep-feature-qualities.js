@@ -19,7 +19,7 @@
 				player.qualitiesButton = 
 					$('<div class="mejs__button mejs__qualities-button">'+
 					  	'<button type="button" aria-controls="' + player.id + '" title="' + player.options.qualitiesText + '" aria-label="' + player.options.qualitiesText + '"></button>'+
-						  '<div class="mejs-qualities-selector hide-qualities-selector">'+
+						  '<div class="mejs__qualities-selector hide-qualities-selector">'+
 		  					'<ul></ul>'+
 			  			'</div>'+
 				  	'</div>').appendTo(controls);
