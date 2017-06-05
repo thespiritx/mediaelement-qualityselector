@@ -30,7 +30,7 @@
 
 			player.qualities = [];
 			for (var i = 0; i < player.sources.length; i++) {
-				if (player.sources[i].getAttribute("data-plugin-type") == player.media.pluginType) {
+				if (player.sources[i].getAttribute("data-plugin-type") == player.media.rendererType) {
 					player.qualities.push(player.sources[i]);
 				}
 			}
