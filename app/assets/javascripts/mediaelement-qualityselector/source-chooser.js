@@ -142,7 +142,8 @@ Object.assign(MediaElementPlayer.prototype, {
 		}
 
 		player.sourcechooserButton.querySelector('button').addEventListener('click', function () {
-			if (mejs.Utils.hasClass(mejs.Utils.siblings(this, "." + t.options.classPrefix + "sourcechooser-selector"), t.options.classPrefix + "offscreen")) {
+			if ($($(this).siblings(t.options.classPrefix + "sourcechooser-selector")).hasClass(t.options.classPrefix + "sourcechooser-selector")) {
+			//if (mejs.Utils.hasClass(mejs.Utils.siblings(this, "." + t.options.classPrefix + "sourcechooser-selector"), t.options.classPrefix + "offscreen")) {
 				player.showSourcechooserSelector();
 				player.sourcechooserButton.querySelector('input[type=radio]:checked').focus();
 			} else {
@@ -178,7 +179,8 @@ Object.assign(MediaElementPlayer.prototype, {
 		    radios = selector.querySelectorAll('input[type=radio]');
 		selector.setAttribute('aria-expanded', 'false');
 		selector.setAttribute('aria-hidden', 'true');
-		mejs.Utils.addClass(selector, t.options.classPrefix + "offscreen");
+		$(selector).addClass(t.options.classPrefix + "offscreen");
+		//mejs.Utils.addClass(selector, t.options.classPrefix + "offscreen");
 
 		for (var i = 0, total = radios.length; i < total; i++) {
 			radios[i].setAttribute('tabindex', '-1');
@@ -196,7 +198,8 @@ Object.assign(MediaElementPlayer.prototype, {
 		    radios = selector.querySelectorAll('input[type=radio]');
 		selector.setAttribute('aria-expanded', 'true');
 		selector.setAttribute('aria-hidden', 'false');
-		mejs.Utils.removeClass(selector, t.options.classPrefix + "offscreen");
+		$(selector).addClass(t.options.classPrefix + "offscreen");
+		//mejs.Utils.removeClass(selector, t.options.classPrefix + "offscreen");
 
 		for (var i = 0, total = radios.length; i < total; i++) {
 			radios[i].setAttribute('tabindex', '0');
