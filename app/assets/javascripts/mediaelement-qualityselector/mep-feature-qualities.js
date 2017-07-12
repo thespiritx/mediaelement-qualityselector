@@ -109,7 +109,13 @@
 		},
  
 		switchQuality: function(quality, url, mimetype) {
+			
+			this.pause();
+			this.setSrc(url);
+			this.load();
+			/*
 		    this.switchStream(url);
+		    */
 		    this.selectedQuality = quality;
 		    $.ajax({type: "POST",
 				url: "/media_objects/set_session_quality",
